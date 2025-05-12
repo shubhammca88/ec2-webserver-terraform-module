@@ -63,7 +63,7 @@ resource "aws_security_group" "ec2_sg" {
   vpc_id      = aws_vpc.main.id
 
   dynamic "ingress" {
-    for_each = [22, 80, 443]
+    for_each = var.allowed_ports
     iterator = port
 
     content {

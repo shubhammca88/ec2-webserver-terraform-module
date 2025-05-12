@@ -12,32 +12,31 @@ variable "availability_zone" {
   description = "Availability zone for the instance"
   type        = string
   default     = "ap-south-1a" # Replace with your desired availability zone
-  
+
 }
-variable "name" {
+variable "instance_name" {
   description = "Name tag for the instance"
   type        = string
   default     = "ec2-instance"
 }
-variable "project" {
-  description = "Project name"
-  type        = string
-}
- variable "environment" {
-  description = "Environment name"
-  type        = string
-  default     = "production"
- }
- variable "tags" {
+
+variable "tags" {
   description = "Tags to apply to the instance"
   type        = map(string)
-  default     = {
-    Name        = var.name
-    Environment = var.environment
-    Project     = var.project
-  }
-   
- }
+
+}
+variable "environment" {
+  description = "Environment tag for the instance"
+  type        = string
+  default     = "dev"
+
+}
+variable "project" {
+  description = "Project tag for the instance"
+  type        = string
+  default     = "webserver-project"
+}
+
 variable "key_name" {
   description = "Name of the key pair to use for SSH access"
   type        = string
@@ -46,5 +45,82 @@ variable "key_name" {
 variable "public_key_path" {
   description = "Path to the public key file"
   type        = string
-
+}
+variable "vpc_security_group_ids" {
+  description = "List of VPC security group IDs to associate with the instance"
+  type        = list(string)
+}
+variable "subnet_id" {
+  description = "Subnet ID to launch the instance in"
+  type        = string
+}
+variable "vpc_id" {
+  description = "VPC ID to launch the instance in"
+  type        = string
+}
+variable "volume_size" {
+  description = "Size of the root volume in GB"
+  type        = number
+  default     = 8
+}
+variable "volume_type" {
+  description = "Type of the root volume"
+  type        = string
+  default     = "gp2"
+}
+variable "encrypted" {
+  description = "Whether to encrypt the root volume"
+  type        = bool
+  default     = true
+}
+variable "associate_public_ip_address" {
+  description = "Whether to associate a public IP address with the instance"
+  type        = bool
+  default     = true
+}
+variable "root_block_device" {
+  description = "Root block device configuration"
+  type        = map(string)
+  default     = {}
+}
+variable "ebs_block_device" {
+  description = "EBS block device configuration"
+  type        = list(map(string))
+  default     = []
+}
+variable "ebs_optimized" {
+  description = "Whether the instance is EBS optimized"
+  type        = bool
+  default     = false
+}
+variable "monitoring" {
+  description = "Whether to enable detailed monitoring"
+  type        = bool
+  default     = false
+}
+variable "iam_instance_profile" {
+  description = "IAM instance profile to associate with the instance"
+  type        = string
+  default     = ""
+}
+variable "user_data" {
+  description = "User data script to run on instance launch"
+  type        = string
+  default     = ""
+}
+variable "allowed_ports" {
+  description = "List of allowed ports for the security group"
+  type        = list(object({
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_blocks = list(string)
+  }))
+  default     = [
+    {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    },]
 }
