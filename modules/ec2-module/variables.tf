@@ -12,32 +12,24 @@ variable "availability_zone" {
   description = "Availability zone for the instance"
   type        = string
   default     = "ap-south-1a" # Replace with your desired availability zone
-  
+
 }
-variable "name" {
+variable "instance_name" {
   description = "Name tag for the instance"
   type        = string
-  default     = "ec2-instance"
+}
+variable "environment" {
+  description = "Environment tag for the instance"
+  type        = string
 }
 variable "project" {
-  description = "Project name"
+  description = "Project tag for the instance"
   type        = string
 }
- variable "environment" {
-  description = "Environment name"
-  type        = string
-  default     = "production"
- }
- variable "tags" {
+variable "tags" {
   description = "Tags to apply to the instance"
   type        = map(string)
-  default     = {
-    Name        = var.name
-    Environment = var.environment
-    Project     = var.project
-  }
-   
- }
+}
 variable "key_name" {
   description = "Name of the key pair to use for SSH access"
   type        = string
