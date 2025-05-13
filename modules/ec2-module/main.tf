@@ -1,12 +1,10 @@
 resource "aws_instance" "ec2" {
   ami                    = var.ami_id
   instance_type          = var.instance_type
-  key_name               = var.key_name
+  key_name               = aws_key_pair.shb-key.key_name
   availability_zone      = var.availability_zone
-  ami_key_pair           = var.key_name
-  ami_public_key_path    = var.public_key_path
-  subnet_id              = var.subnet_id.id
-  vpc_security_group_ids = var.vpc_security_group_ids.id
+  subnet_id              = aws_subnet.public_subnet.id
+  vpc_security_group_ids = [aws_security_group.ec2_sg.id]
   # Optionally, add vpc_id (for clarity or specific configurations)
   # root_block_device {
   #   volume_size = var.volume_size

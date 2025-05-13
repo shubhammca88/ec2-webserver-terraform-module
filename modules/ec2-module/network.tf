@@ -27,7 +27,7 @@ resource "aws_internet_gateway" "igw" {
 # Public Subnet
 resource "aws_subnet" "public_subnet" {
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.1.0/24"
+  cidr_block              = "${var.public_subnet_cidr}"
   map_public_ip_on_launch = true
   availability_zone       = var.availability_zone
 
@@ -64,14 +64,12 @@ resource "aws_security_group" "ec2_sg" {
 
   dynamic "ingress" {
     for_each = var.allowed_ports
-    iterator = port
-
     content {
-      description = "Allow TCP port ${port.value}"
-      from_port   = port.value
-      to_port     = port.value
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      description = "Allow port ${ingress.value.from_port}"
+      from_port   = ingress.value.from_port
+      to_port     = ingress.value.to_port
+      protocol    = ingress.value.protocol
+      cidr_blocks = ingress.value.cidr_blocks
     }
   }
 

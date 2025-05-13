@@ -8,70 +8,80 @@ variable "instance_type" {
   type        = string
   default     = "t2.micro"
 }
+
 variable "availability_zone" {
   description = "Availability zone for the instance"
   type        = string
-  default     = "ap-south-1a" # Replace with your desired availability zone
-
+  default     = "ap-south-1a"
 }
+
 variable "instance_name" {
   description = "Name tag for the instance"
   type        = string
 }
+
 variable "environment" {
   description = "Environment tag for the instance"
   type        = string
 }
+
 variable "project" {
   description = "Project tag for the instance"
   type        = string
 }
+
 variable "tags" {
   description = "Tags to apply to the instance"
   type        = map(string)
 }
+
 variable "key_name" {
   description = "Name of the key pair to use for SSH access"
   type        = string
-  default     = "webserver-key" # Replace with your actual key name
+  default     = "webserver-key"
 }
+
 variable "public_key_path" {
   description = "Path to the public key file"
   type        = string
+}
 
-}
-variable "vpc_security_group_ids" {
-  description = "List of VPC security group IDs to associate with the instance"
-  type        = list(string)
-}
-variable "subnet_id" {
-  description = "Subnet ID to launch the instance in"
+variable "public_subnet_cidr" {
+  description = "CIDR block for the public subnet"
   type        = string
+  default     = "10.0.1.0/24"
 }
-variable "vpc_id" {
-  description = "VPC ID to launch the instance in"
+
+variable "private_subnet_cidr" {
+  description = "CIDR block for the private subnet"
   type        = string
+  default     = "10.0.2.0/24"
 }
+
 variable "volume_size" {
   description = "Size of the root volume in GiB"
   type        = number
   default     = 20
 }
+
 variable "volume_type" {
   description = "Type of the root volume"
   type        = string
   default     = "gp2"
 }
+
 variable "encrypted" {
   description = "Whether to encrypt the root volume"
   type        = bool
   default     = false
 }
+
 variable "associate_public_ip_address" {
   description = "Whether to associate a public IP address with the instance"
   type        = bool
   default     = true
 }
+
 variable "root_block_device" {
   description = "Root block device configuration"
   type        = map(string)
